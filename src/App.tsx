@@ -1,19 +1,49 @@
-import { Stack, Typography, Slider, Box, useTheme } from "@mui/material";
+import {
+	Stack,
+	Typography,
+	Box,
+	FormControl,
+	FormLabel,
+	RadioGroup,
+	FormControlLabel,
+	Radio,
+} from "@mui/material";
 import { useState } from "react";
 import AppSlider from "./components/AppSlider";
+import CloudProviderSettingsContainer from "./components/CloudProviderSettingsContainer";
 import CloudStoragesBar from "./components/CloudStoragesBar";
+import CloudProviderSettings from "./scenes/CloudProviderSettings";
 import Titles from "./scenes/Titles";
+
+export type BunnyCloudSettingsStateType = {
+	storageType: "HDD" | "SSD";
+};
+
+export type ScalewayCloudSettingsStateType = {
+	hostType: "MULTI" | "SINGLE";
+};
 
 const App = () => {
 	const [storageAmount, setStorageAmount] = useState(1);
 	const [transferAmount, setTransferAmount] = useState(1);
+
+	const [bunnyCloudSettings, setBunnyCloudSettings] =
+		useState<BunnyCloudSettingsStateType>({
+			storageType: "SSD",
+		});
+
+	const [scalewayCloudSettings, setScalewayCloudSettings] =
+		useState<ScalewayCloudSettingsStateType>({
+			hostType: "SINGLE",
+		});
 
 	return (
 		<Stack
 			direction={"column"}
 			justifyContent={"space-between"}
 			alignItems={"center"}
-			sx={{ height: "100vh", py: 4, px: 2 }}>
+			gap={2}
+			sx={{ minHeight: "100vh", p: 2 }}>
 			<Titles sx={{ width: "70%" }} />
 			<Stack
 				direction={"row"}
@@ -46,9 +76,19 @@ const App = () => {
 					}}
 				/>
 			</Stack>
+			<CloudProviderSettings
+				bunnyCloud={{
+					settings: bunnyCloudSettings,
+					setSettings: setBunnyCloudSettings,
+				}}
+				scalewayCloud={{
+					settings: scalewayCloudSettings,
+					setSettings: setScalewayCloudSettings,
+				}}
+			/>
 			<Box sx={{ width: "70%", height: "40vh" }}>
 				<CloudStoragesBar
-					lowestPriceIndex={3}
+					lowestPriceIndex={1}
 					data={[
 						{
 							host: "BackBlaze",
