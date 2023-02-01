@@ -6,6 +6,7 @@
 		"@emotion/react": "^11.10.5",
 		"@emotion/styled": "^11.10.5",
 		"@mui/material": "^5.11.7",
+		"@nivo/bar": "^0.80.0",
 		"@types/react": "^18.0.27",
 		"@types/react-dom": "^18.0.10",
 		"react": "^18.2.0",

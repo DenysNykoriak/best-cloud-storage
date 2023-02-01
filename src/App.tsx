@@ -1,6 +1,7 @@
-import { Stack, Typography, Slider, Box } from "@mui/material";
+import { Stack, Typography, Slider, Box, useTheme } from "@mui/material";
 import { useState } from "react";
 import AppSlider from "./components/AppSlider";
+import CloudStoragesBar from "./components/CloudStoragesBar";
 import Titles from "./scenes/Titles";
 
 const App = () => {
@@ -45,6 +46,29 @@ const App = () => {
 					}}
 				/>
 			</Stack>
+			<Box sx={{ width: "70%", height: "40vh" }}>
+				<CloudStoragesBar
+					lowestPriceIndex={3}
+					data={[
+						{
+							host: "BackBlaze",
+							price: 74,
+						},
+						{
+							host: "Bunny",
+							price: 109,
+						},
+						{
+							host: "Scaleway",
+							price: 15,
+						},
+						{
+							host: "Vultr",
+							price: 34,
+						},
+					]}
+				/>
+			</Box>
 		</Stack>
 	);
 };
