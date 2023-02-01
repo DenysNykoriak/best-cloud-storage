@@ -38,11 +38,11 @@ const App = () => {
 			hostType: "SINGLE",
 		});
 
-	useCloudProvidersPrice({
+	const { prices, lowestPrice } = useCloudProvidersPrice({
 		storageAmount,
 		transferAmount,
 		providers: {
-			backbase: {
+			backblaze: {
 				minPayment: 7,
 				storagePrice: 0.005,
 				transferPrice: 0.01,
@@ -65,6 +65,32 @@ const App = () => {
 			},
 		},
 	});
+
+	const barData = [
+		{
+			host: "BackBlaze",
+			price: prices.backblaze.toFixed(2),
+			lowest: prices.backblaze === lowestPrice ? "YES" : "NO",
+		},
+		{
+			host: "Bunny",
+			price: prices.bunny.toFixed(2),
+			lowest: prices.bunny === lowestPrice ? "YES" : "NO",
+		},
+		{
+			host: "Scaleway",
+			price: prices.scaleway.toFixed(2),
+			lowest: prices.scaleway === lowestPrice ? "YES" : "NO",
+		},
+		{
+			host: "Vultr",
+			price: prices.vultr.toFixed(2),
+			lowest: prices.vultr === lowestPrice ? "YES" : "NO",
+		},
+	];
+
+	const lowestPriceCloud =
+		barData.find((cloud) => cloud.lowest === "YES") ?? barData[0];
 
 	return (
 		<Stack
@@ -115,27 +141,16 @@ const App = () => {
 					setSettings: setScalewayCloudSettings,
 				}}
 			/>
+			<Typography variant="h6">
+				Lowest Price: {lowestPriceCloud.host} - {lowestPriceCloud.price}$
+			</Typography>
 			<Box sx={{ width: "70%", height: "40vh" }}>
 				<CloudStoragesBar
-					lowestPriceIndex={1}
-					data={[
-						{
-							host: "BackBlaze",
-							price: 74,
-						},
-						{
-							host: "Bunny",
-							price: 109,
-						},
-						{
-							host: "Scaleway",
-							price: 15,
-						},
-						{
-							host: "Vultr",
-							price: 34,
-						},
-					]}
+					lowestPriceIndex={barData.indexOf(
+						barData.find((cloud) => Number(cloud.price) === lowestPrice) ??
+							barData[0],
+					)}
+					data={barData}
 				/>
 			</Box>
 		</Stack>

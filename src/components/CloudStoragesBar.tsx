@@ -18,21 +18,16 @@ const CloudStoragesBar: FC<CloudStoragesBarProps> = ({
 	const greyHex = muiTheme.palette.grey[600];
 	const lowestPriceHex = muiTheme.palette.primary.main;
 
-	const reversedData = Array.from(data).reverse();
-	let lowestPriceInReversedData = reversedData.indexOf(data[lowestPriceIndex]);
-
 	return (
 		<ResponsiveBar
-			data={reversedData}
+			data={data.reverse()}
 			keys={["price"]}
 			indexBy="host"
 			margin={{ top: 50, right: 130, bottom: 50, left: 70 }}
 			padding={0.3}
 			layout="horizontal"
 			colors={(bar) => {
-				return bar.index === lowestPriceInReversedData
-					? lowestPriceHex
-					: greyHex;
+				return bar.data.lowest === "YES" ? lowestPriceHex : greyHex;
 			}}
 			colorBy="indexValue"
 			enableLabel={true}

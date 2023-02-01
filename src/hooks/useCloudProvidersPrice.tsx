@@ -14,7 +14,7 @@ type CloudProvidersPriceHookParams = {
 	storageAmount: number;
 	transferAmount: number;
 	providers: {
-		backbase: ProviderPrices;
+		backblaze: ProviderPrices;
 		bunny: ProviderPrices & BunnyCloudSettingsStateType;
 		scaleway: ProviderPrices & ScalewayCloudSettingsStateType;
 		vultr: ProviderPrices;
@@ -29,11 +29,13 @@ export const useCloudProvidersPrice = ({
 	const finalPrices: {
 		[key in keyof CloudProvidersPriceHookParams["providers"]]: number;
 	} = {
-		backbase: 0,
+		backblaze: 0,
 		bunny: 0,
 		scaleway: 0,
 		vultr: 0,
 	};
+
+	const prices: number[] = [];
 
 	const cloudProviderNames = Object.keys(
 		finalPrices,
@@ -83,8 +85,10 @@ export const useCloudProvidersPrice = ({
 	};
 
 	for (const cloudName of cloudProviderNames) {
-		finalPrices[cloudName] = calcCloud(cloudName);
+		const price = calcCloud(cloudName);
+		finalPrices[cloudName] = price;
+		prices.push(price);
 	}
 
-	return finalPrices;
+	return { prices: finalPrices, lowestPrice: prices.sort((a, b) => a - b)[0] };
 };
