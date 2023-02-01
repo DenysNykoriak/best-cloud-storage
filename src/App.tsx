@@ -12,6 +12,7 @@ import { useState } from "react";
 import AppSlider from "./components/AppSlider";
 import CloudProviderSettingsContainer from "./components/CloudProviderSettingsContainer";
 import CloudStoragesBar from "./components/CloudStoragesBar";
+import { useCloudProvidersPrice } from "./hooks/useCloudProvidersPrice";
 import CloudProviderSettings from "./scenes/CloudProviderSettings";
 import Titles from "./scenes/Titles";
 
@@ -36,6 +37,34 @@ const App = () => {
 		useState<ScalewayCloudSettingsStateType>({
 			hostType: "SINGLE",
 		});
+
+	useCloudProvidersPrice({
+		storageAmount,
+		transferAmount,
+		providers: {
+			backbase: {
+				minPayment: 7,
+				storagePrice: 0.005,
+				transferPrice: 0.01,
+			},
+			bunny: {
+				maxPayment: 10,
+				storagePrice: 0, //Will be calculated in hook
+				transferPrice: 0.01,
+				storageType: bunnyCloudSettings.storageType,
+			},
+			scaleway: {
+				storagePrice: 0, //Will be calculated in hook
+				transferPrice: 0.02, //Will be calculated in hook
+				hostType: scalewayCloudSettings.hostType,
+			},
+			vultr: {
+				minPayment: 5,
+				storagePrice: 0.01,
+				transferPrice: 0.01,
+			},
+		},
+	});
 
 	return (
 		<Stack
