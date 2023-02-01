@@ -5,12 +5,14 @@ import { FC } from "react";
 
 type CloudStoragesBarProps = {
 	data: BarDatum[];
+	smallDevice: boolean;
 	lowestPriceIndex: number;
 };
 
 const CloudStoragesBar: FC<CloudStoragesBarProps> = ({
 	data,
 	lowestPriceIndex,
+	smallDevice,
 	...props
 }) => {
 	const muiTheme = useTheme();
@@ -23,9 +25,13 @@ const CloudStoragesBar: FC<CloudStoragesBarProps> = ({
 			data={data.reverse()}
 			keys={["price"]}
 			indexBy="host"
-			margin={{ top: 50, right: 130, bottom: 50, left: 70 }}
+			margin={
+				smallDevice
+					? { top: 10, right: 80, bottom: 50, left: 30 }
+					: { top: 10, right: 100, bottom: 30, left: 100 }
+			}
 			padding={0.3}
-			layout="horizontal"
+			layout={smallDevice ? "vertical" : "horizontal"}
 			colors={(bar) => {
 				return bar.data.lowest === "YES" ? lowestPriceHex : greyHex;
 			}}

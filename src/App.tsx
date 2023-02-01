@@ -7,6 +7,8 @@ import {
 	RadioGroup,
 	FormControlLabel,
 	Radio,
+	useTheme,
+	useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
 import AppSlider from "./components/AppSlider";
@@ -25,6 +27,9 @@ export type ScalewayCloudSettingsStateType = {
 };
 
 const App = () => {
+	const muiTheme = useTheme();
+	const smallDevice = useMediaQuery(muiTheme.breakpoints.down("md"));
+
 	const [storageAmount, setStorageAmount] = useState(1);
 	const [transferAmount, setTransferAmount] = useState(1);
 
@@ -99,12 +104,12 @@ const App = () => {
 			alignItems={"center"}
 			gap={2}
 			sx={{ minHeight: "100vh", p: 2 }}>
-			<Titles sx={{ width: "70%" }} />
+			<Titles sx={{ width: "90%" }} />
 			<Stack
 				direction={"row"}
 				justifyContent={"space-around"}
 				sx={{
-					width: "70%",
+					width: "90%",
 				}}>
 				<AppSlider
 					slider={{
@@ -144,8 +149,9 @@ const App = () => {
 			<Typography variant="h6">
 				Lowest Price: {lowestPriceCloud.host} - {lowestPriceCloud.price}$
 			</Typography>
-			<Box sx={{ width: "70%", height: "40vh" }}>
+			<Box sx={{ width: "100%", height: "40vh" }}>
 				<CloudStoragesBar
+					smallDevice={smallDevice}
 					lowestPriceIndex={barData.indexOf(
 						barData.find((cloud) => Number(cloud.price) === lowestPrice) ??
 							barData[0],
